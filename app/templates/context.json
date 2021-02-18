@@ -1,0 +1,5 @@
+{
+  "app": "{{ g.appname }}",
+  "timestamp": "{{ g.timestamp }}",
+  "status": "{{ g.status }}"
+}
