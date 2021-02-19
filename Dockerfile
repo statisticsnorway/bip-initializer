@@ -67,4 +67,4 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./app /app/
 
 # Serve the application with the gunicorn server
-CMD [ "gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "app.hello:app" ]
+CMD [ "gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "app.main:app" ]
