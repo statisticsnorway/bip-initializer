@@ -37,7 +37,8 @@ RUN apt-get update \
     curl \
     build-essential \
     python3-distutils \
-    python3-apt
+    python3-apt \
+    libpython3.9-dev
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python -
@@ -66,4 +67,4 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./app /app/
 
 # Serve the application with the gunicorn server
-CMD [ "gunicorn", "-b", "0.0.0.0:5000", "app.wsgi:app" ]
+CMD [ "gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "app.hello:app" ]
