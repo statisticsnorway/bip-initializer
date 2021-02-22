@@ -48,7 +48,7 @@ docker run -p 5000:5000 bip-initializer:latest
 ## Run tests
 
 ```command
-poetry run pytest
+poetry run pytest tests --ignore=tests/resources --junitxml=junit/test-results.xml --cov=app/ --cov-report=xml --cov-report=html
 ```
 
 ## Access locally
