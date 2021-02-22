@@ -47,16 +47,12 @@ stages:
             PIP_DISABLE_PIP_VERSION_CHECK=on \
             PIP_DEFAULT_TIMEOUT=100 \
             POETRY_VERSION=1.1.4 \
-            POETRY_HOME="/opt/poetry" \
             POETRY_VIRTUALENVS_IN_PROJECT=true \
-            POETRY_NO_INTERACTION=1 \
-            PYSETUP_PATH="/opt/pysetup" \
-            VENV_PATH="/opt/pysetup/.venv"
+            POETRY_NO_INTERACTION=1
         displayName: 'Export environment variables'
 
       - script: |
-          apt-get update \
-            && apt-get install -y \
+          sudo apt-get install -y \
             curl \
             build-essential \
             python3-distutils \
