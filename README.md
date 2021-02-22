@@ -25,7 +25,7 @@ poetry install
 pre-commit install
 ```
 
-> :info: Poetry shows a warning running on Mac. This is because the alias `python` on Mac points to Python 2.7 :facepalm:. You may see a warning like the following:
+> :information_source: Poetry shows a warning running on Mac. This is because the alias `python` on Mac points to Python 2.7 :facepalm:. You may see a warning like the following:
 >
 > ```command
 > Python 2.7 will no longer be supported in the next feature release of Poetry (1.2).
