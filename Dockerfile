@@ -67,4 +67,10 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./app /app/
 
 # Serve the application with the gunicorn server
-CMD [ "gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "app.main:app" ]
+# Arguments explanation:
+# Spin up 4 workers
+# Use the Uvicorn class worker (for asynchronous requests)
+# Bind to port 5000
+# Log all access to the app
+# Serve the app found in the module app.main
+CMD [ "gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:5000", "--access-logfile", "-", "app.main:app" ]
