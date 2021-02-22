@@ -4,7 +4,7 @@ Generate everything your app needs to get started on BIP
 
 ----
 
-[![Build Status](https://dev.azure.com/statisticsnorway/Stratus/_apis/build/status/statisticsnorway.bip-initializer?repoName=statisticsnorway%2Fbip-initializer&branchName=refs%2Fpull%2F9%2Fmerge)](https://dev.azure.com/statisticsnorway/Stratus/_build/latest?definitionId=194&repoName=statisticsnorway%2Fbip-initializer&branchName=refs%2Fpull%2F9%2Fmerge)
+[![Build Status](https://dev.azure.com/statisticsnorway/Stratus/_apis/build/status/statisticsnorway.bip-initializer?repoName=statisticsnorway%2Fbip-initializer&branchName=main)](https://dev.azure.com/statisticsnorway/Stratus/_build/latest?definitionId=194&repoName=statisticsnorway%2Fbip-initializer&branchName=main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Contribute
