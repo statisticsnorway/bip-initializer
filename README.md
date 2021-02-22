@@ -32,7 +32,7 @@ pre-commit install
 > You should consider updating your Python version to a supported one.
 > ```
 >
-> To fix this, change the line `#!/usr/bin/env python` in `~/.poetry/bin/poetry` to `#!/usr/bin/env python`
+> To fix this, change the line `#!/usr/bin/env python` in `~/.poetry/bin/poetry` to `#!/usr/bin/env python3`
 
 ### Add a new dependency
 
