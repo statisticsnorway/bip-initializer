@@ -59,6 +59,7 @@ stages:
             python3-apt \
             libpython3.9-dev
           curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python -
+          source $HOME/.poetry/env
           poetry install
         displayName: 'Install dependencies'
 
