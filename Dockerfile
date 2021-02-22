@@ -24,8 +24,9 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
 RUN apt-get update \
-    && apt-get install -y \
+    && apt-get install -y --no-install-recommends \
     python3.9 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && ln -s /usr/bin/python3.9 /usr/bin/python
 
 ###############################################
@@ -33,14 +34,17 @@ RUN apt-get update \
 ###############################################
 FROM python-base as builder-base
 RUN apt-get update \
-    && apt-get install -y \
+    && apt-get install -y  --no-install-recommends \
+    ca-certificates \
     curl \
     build-essential \
     python3-distutils \
     python3-apt \
-    libpython3.9-dev
+    libpython3.9-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python -
 
 # copy project requirement files here to ensure they will be cached.
