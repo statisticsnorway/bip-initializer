@@ -28,8 +28,64 @@ variables:
     value: 'eu.gcr.io'
 
 stages:
+
+- stage: unitTests
+  displayName: Run Unit Tests
+  jobs:
+  - job: unitTests
+    displayName: Run Unit Tests
+    # Inspired by https://github.com/statisticsnorway/microdata-datastore-builder/blob/master/azure-pipelines.yml
+
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.9'
+        displayName: 'Use Python 3.9'
+
+      - script: |
+          export PIP_NO_CACHE_DIR=off \
+            PIP_DISABLE_PIP_VERSION_CHECK=on \
+            PIP_DEFAULT_TIMEOUT=100 \
+            POETRY_VERSION=1.1.4 \
+            POETRY_HOME="/opt/poetry" \
+            POETRY_VIRTUALENVS_IN_PROJECT=true \
+            POETRY_NO_INTERACTION=1 \
+            PYSETUP_PATH="/opt/pysetup" \
+            VENV_PATH="/opt/pysetup/.venv"
+        displayName: 'Export environment variables'
+
+      - script: |
+          apt-get update \
+            && apt-get install -y \
+            curl \
+            build-essential \
+            python3-distutils \
+            python3-apt \
+            libpython3.9-dev
+          curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python -
+          poetry install
+        displayName: 'Install dependencies'
+
+      - script: |
+          poetry run pytest tests --ignore=tests/resources --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
+        displayName: 'Test with pytest'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFiles: '**/test-*.xml'
+          testRunTitle: 'Publish test results'
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+          reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+
 - stage: build
   displayName: Build Docker Image and push to GCR
+  dependsOn: unitTests
+  condition: succeeded()
   jobs:
   - job: build
     steps:
@@ -40,8 +96,8 @@ stages:
           repoName: $(repoName)
 
 - stage: tagForProd
-  dependsOn: build
   displayName: Tag Docker Image for production
+  dependsOn: build
   jobs:
   - template: docker/docker-tag-for-production.yml@templates
     parameters:
