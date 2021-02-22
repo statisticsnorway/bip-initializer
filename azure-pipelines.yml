@@ -1,0 +1,49 @@
+trigger:
+  # Trigger from semantic version tags (for releasing to prod)
+  tags:
+    include:
+    - '*.*.*'
+
+  branches:
+    include:
+    - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+resources:
+  repositories:
+    # Where our templates are sourced from
+    - repository: templates
+      type: github
+      ref: refs/heads/set-docker-tag-to-variable
+      name: statisticsnorway/azure-pipelines-templates
+      endpoint: github
+
+variables:
+  - name: repoName
+    value: 'prod-bip/ssb/stratus/bip-initializer'
+
+  - name: imageHost
+    value: 'eu.gcr.io'
+
+stages:
+- stage: build
+  displayName: Build Docker Image and push to GCR
+  jobs:
+  - job: build
+    steps:
+      # The template defines steps so we use it in a steps section
+      - template: docker/docker-build-image-and-push-to-gcr.yml@templates
+        parameters:
+          imageName: '$(imageHost)/$(repoName)'
+          repoName: $(repoName)
+
+- stage: tagForProd
+  dependsOn: build
+  displayName: Tag Docker Image for production
+  jobs:
+  - template: docker/docker-tag-for-production.yml@templates
+    parameters:
+      tagToTag: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
+      gcrImageName: '$(imageHost)/$(repoName)'
