@@ -61,7 +61,7 @@ With the server running natively (or in [Docker](#Docker)), visit <http://127.0.
 ### Run tests
 
 ```command
-poetry run pytest
+poetry run pytest tests --ignore=tests/resources --junitxml=junit/test-results.xml --cov=app/ --cov-report=xml --cov-report=html
 ```
 
 ### Docker
