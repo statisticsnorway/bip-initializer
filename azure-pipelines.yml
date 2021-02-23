@@ -4,6 +4,7 @@ trigger:
     include:
     - '*.*.*'
 
+  # Trigger from changes to main (including PRs)
   branches:
     include:
     - main
@@ -31,6 +32,8 @@ stages:
 
 - stage: unitTests
   displayName: Run Unit Tests
+  # Don't run for tagging events
+  condition: not(startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   jobs:
   - job: unitTests
     displayName: Run Unit Tests
@@ -83,7 +86,8 @@ stages:
 - stage: build
   displayName: Build Docker Image and push to GCR
   dependsOn: unitTests
-  condition: succeeded()
+  # Run only if previous stage succeeded. Don't run for tagging events
+  condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
   jobs:
   - job: build
     steps:
@@ -93,9 +97,9 @@ stages:
           imageName: '$(imageHost)/$(repoName)'
           repoName: $(repoName)
 
+# The template makes sure this is only run for "tag" events
 - stage: tagForProd
   displayName: Tag Docker Image for production
-  dependsOn: build
   jobs:
   - template: docker/docker-tag-for-production.yml@templates
     parameters:
