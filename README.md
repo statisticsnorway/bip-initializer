@@ -46,6 +46,10 @@ This project makes use of the opinionated code formatting tool [Black](https://g
 
 It is recommended to run black automatically every time you change files. This is supported by use of the [pre-commit](https://pre-commit.com/) tool. To set it up, just run `pre-commit install` the first time you set up the project.
 
+### Make a new release
+
+Update the release number following [semantic versioning](https://semver.org/). It needs to be updated and kept synchronised in `app/__init__.py` and in `pyproject.toml`, change these both in a single commit. Make a PR containing the commit. Once the PR is merged, use the [Github release process](https://github.com/statisticsnorway/bip-initializer/releases/new) to release with the same version number.
+
 ## Run locally
 
 ### Run natively
