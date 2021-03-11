@@ -1,0 +1,38 @@
+{
+  "apiVersion": "helm.fluxcd.io/v1",
+  "kind": "HelmRelease",
+  "metadata": {
+    "name": "{{ values.name }}",
+    "namespace": "{{ values.namespace }}",
+    "annotations": {
+      "fluxcd.io/ignore": "false",
+      "fluxcd.io/automated": "true",
+      "fluxcd.io/tag.chart-image": "glob:master-*",
+      "fluxcd.io/locked": "false"
+    }
+  },
+  "spec": {
+    "chart": {
+      "git": "ssh://git@github.com/statisticsnorway/platform-dev",
+      "ref": "master",
+      "path": "helm/charts/ssb-chart"
+    },
+    "releaseName": "{{ values.name }}",
+    "helmVersion": "v3",
+    "values": {
+      "name": "{{ values.name }}",
+      "appType": "{{ values.apptype }}",
+      "cluster": "{{ values.cluster }}",
+      "exposed": false,
+      "billingProject": "{{ values.billingproject }}",
+      "image": {
+        "repository": "{{ values.image_repository }}",
+        "tag": "{{ values.image_tag }}"
+      },
+      "port": {
+        "name": "http-{{ values.name }}",
+        "containerport": {{ values.port }}
+      }
+    }
+  }
+}
