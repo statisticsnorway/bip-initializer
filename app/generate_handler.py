@@ -21,7 +21,7 @@ class HRValues(BaseModel):
 
 
 @router.post("/api/1/generate")
-async def generate_handler(request: Request, hrvalues: HRValues):
+async def generate_handler(hrvalues: HRValues):
     env = Environment(
         loader=FileSystemLoader('templates')
     )
