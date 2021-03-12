@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 from typing import Optional
-from fastapi.templating import Jinja2Templates
+from jinja2 import Environment, FileSystemLoader
+import json
 
 router = APIRouter()
 
@@ -21,11 +22,9 @@ class HRValues(BaseModel):
 
 @router.post("/api/1/generate")
 async def generate_handler(request: Request, hrvalues: HRValues):
-    templates = Jinja2Templates(directory="templates")
-    generated_hr = templates.TemplateResponse(
-        "helmrelease.j2", {"request": request, "values": hrvalues}
+    env = Environment(
+        loader=FileSystemLoader('templates')
     )
-    return generated_hr
-    # Sjekk for gyldig verdier??
-    # Kall metode generate og send med variabler i HRValues
-    # Returner det metoden sender tilbake
+    template = env.get_template('helmrelease.j2')
+    generated_hr = template.render(hrvalues)
+    return json.loads(generated_hr)
