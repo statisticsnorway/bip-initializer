@@ -1,7 +1,8 @@
 import json
 
+
 def test_generate(client):
-    post_data = '''{
+    post_data = """{
             "name": "am-hello-world",
             "namespace": "stratus",
             "cluster": "staging-bip-app",
@@ -11,14 +12,14 @@ def test_generate(client):
             "port": 5000,
             "apptype": "backend",
             "exposed": false
-        }'''
+        }"""
     response = client.post(
         "/api/1/generate",
         headers={"Content-Type": "application/json"},
         json=json.loads(post_data),
     )
     assert response.status_code == 200
-    expected_result = '''
+    expected_result = """
          {
            "apiVersion": "helm.fluxcd.io/v1",
            "kind": "HelmRelease",
@@ -57,5 +58,5 @@ def test_generate(client):
              }
            }
          }
-        '''
+        """
     assert response.json() == json.loads(expected_result)

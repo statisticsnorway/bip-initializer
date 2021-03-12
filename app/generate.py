@@ -23,9 +23,7 @@ class HRValues(BaseModel):
 
 @router.post("/api/1/generate")
 async def generate(hrvalues: HRValues):
-    env = Environment(
-        loader=FileSystemLoader('templates')
-    )
-    template = env.get_template('helmrelease.j2')
+    env = Environment(loader=FileSystemLoader("templates"))
+    template = env.get_template("helmrelease.j2")
     generated_hr = template.render(hrvalues)
     return json.loads(generated_hr)

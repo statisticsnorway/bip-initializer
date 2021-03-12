@@ -69,6 +69,7 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 # Copy the app code from the host machine
 COPY ./app /app/
+COPY ./templates /templates/
 
 # Serve the application with the gunicorn server
 # Arguments explanation:
