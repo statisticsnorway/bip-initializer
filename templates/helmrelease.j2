@@ -7,7 +7,7 @@
     "annotations": {
       "fluxcd.io/ignore": "false",
       "fluxcd.io/automated": "true",
-      "fluxcd.io/tag.chart-image": "glob:master-*",
+      "fluxcd.io/tag.chart-image": "{{ flux_image_tag_pattern }}",
       "fluxcd.io/locked": "false"
     }
   },

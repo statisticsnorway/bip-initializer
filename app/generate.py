@@ -11,6 +11,7 @@ router = APIRouter()
 class HRValues(BaseModel):
     name: str
     namespace: str
+    flux_image_tag_pattern: Optional[str] = "glob:main-*"
     cluster: str
     billingproject: str
     image_repository: str
@@ -25,6 +26,7 @@ class HRValues(BaseModel):
             "example": {
                 "name": "myapp",
                 "namespace": "stratus",
+                "flux_image_tag_pattern": "glob:main-*",
                 "cluster": "staging-bip-app",
                 "billingproject": "ssb-stratus",
                 "image_repository": "eu.gcr.io/prod-bip/ssb/stratus/myapp",
