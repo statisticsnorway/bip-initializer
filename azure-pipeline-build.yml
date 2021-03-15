@@ -1,9 +1,4 @@
 trigger:
-  # Trigger from semantic version tags (for releasing to prod)
-  tags:
-    include:
-    - '*.*.*'
-
   # Trigger from changes to main (including PRs)
   branches:
     include:
@@ -31,8 +26,6 @@ stages:
 
 - stage: unitTests
   displayName: Run Unit Tests
-  # Don't run for tagging events
-  condition: not(startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   jobs:
   - job: unitTests
     displayName: Run Unit Tests
@@ -86,7 +79,7 @@ stages:
   displayName: Build Docker Image and push to GCR
   dependsOn: unitTests
   # Run only if previous stage succeeded. Don't run for tagging events
-  condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/tags/')))
+  condition: succeeded()
   jobs:
   - job: build
     steps:
@@ -95,12 +88,3 @@ stages:
         parameters:
           imageName: '$(imageHost)/$(repoName)'
           repoName: $(repoName)
-
-# The template makes sure this is only run for "tag" events
-- stage: tagForProd
-  displayName: Tag Docker Image for production
-  jobs:
-  - template: docker/docker-tag-for-production.yml@templates
-    parameters:
-      tagToTag: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
-      gcrImageName: '$(imageHost)/$(repoName)'
