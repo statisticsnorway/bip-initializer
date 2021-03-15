@@ -17,7 +17,6 @@ resources:
     # Where our templates are sourced from
     - repository: templates
       type: github
-      ref: refs/heads/set-docker-tag-to-variable
       name: statisticsnorway/azure-pipelines-templates
       endpoint: github
 
