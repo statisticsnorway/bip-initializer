@@ -5,6 +5,7 @@ def test_generate(client):
     post_data = """{
             "name": "am-hello-world",
             "namespace": "stratus",
+            "flux_image_tag_pattern" : "glob:main-*",
             "cluster": "staging-bip-app",
             "billingproject": "ssb-stratus",
             "image_repository": "eu.gcr.io/prod-bip/ssb/stratus/am-hello-world",
@@ -29,7 +30,7 @@ def test_generate(client):
              "annotations": {
                "fluxcd.io/ignore": "false",
                "fluxcd.io/automated": "true",
-               "fluxcd.io/tag.chart-image": "glob:master-*",
+               "fluxcd.io/tag.chart-image": "glob:main-*",
                "fluxcd.io/locked": "false"
              }
            },
@@ -66,6 +67,7 @@ def test_wrong_type(client):
     post_data = """{
               "name": "am-hello-world",
               "namespace": "stratus",
+              "flux_image_tag_pattern" : "glob:main-*",
               "cluster": "staging-bip-app",
               "billingproject": "ssb-stratus",
               "image_repository": "eu.gcr.io/prod-bip/ssb/stratus/am-hello-world",
@@ -86,6 +88,7 @@ def test_missing_value(client):
     post_data = """{
               "name": "am-hello-world",
               "namespace": "stratus",
+              "flux_image_tag_pattern" : "glob:main-*",
               "billingproject": "ssb-stratus",
               "image_repository": "eu.gcr.io/prod-bip/ssb/stratus/am-hello-world",
               "image_tag": "main-d2193bee3f24ae19e04d77826079d02cf58c0514",
