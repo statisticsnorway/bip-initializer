@@ -14,7 +14,7 @@ def test_generate(client):
             "exposed": false
         }"""
     response = client.post(
-        "/api/1/generate",
+        "/api/v1/generate",
         headers={"Content-Type": "application/json"},
         json=json.loads(post_data),
     )
@@ -60,3 +60,42 @@ def test_generate(client):
          }
         """
     assert response.json() == json.loads(expected_result)
+
+
+def test_wrong_type(client):
+    post_data = """{
+              "name": "am-hello-world",
+              "namespace": "stratus",
+              "cluster": "staging-bip-app",
+              "billingproject": "ssb-stratus",
+              "image_repository": "eu.gcr.io/prod-bip/ssb/stratus/am-hello-world",
+              "image_tag": "main-d2193bee3f24ae19e04d77826079d02cf58c0514",
+              "port": "Femhundre",
+              "apptype": "backend",
+              "exposed": false
+          }"""
+    response = client.post(
+        "/api/v1/generate",
+        headers={"Content-Type": "application/json"},
+        json=json.loads(post_data),
+    )
+    assert response.status_code == 422
+
+
+def test_missing_value(client):
+    post_data = """{
+              "name": "am-hello-world",
+              "namespace": "stratus",
+              "billingproject": "ssb-stratus",
+              "image_repository": "eu.gcr.io/prod-bip/ssb/stratus/am-hello-world",
+              "image_tag": "main-d2193bee3f24ae19e04d77826079d02cf58c0514",
+              "port": 5000,
+              "apptype": "backend",
+              "exposed": false
+          }"""
+    response = client.post(
+        "/api/v1/generate",
+        headers={"Content-Type": "application/json"},
+        json=json.loads(post_data),
+    )
+    assert response.status_code == 422
