@@ -1,3 +1,7 @@
+# NOTE: For this pipeline to work, you have to tag (in Git)
+# THE COMMIT WHICH IS THE MERGE COMMIT FOR A PR (otherwise there will be no GCR image to tag,
+# and the pipeline will fail)
+
 trigger:
   # Trigger from semantic version tags (for releasing to prod)
   tags:
@@ -30,5 +34,5 @@ stages:
   jobs:
   - template: docker/docker-tag-for-production.yml@templates
     parameters:
-      tagToTag: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
+      tagToTag: 'main-$(Build.SourceVersion)'
       gcrImageName: '$(imageHost)/$(repoName)'
