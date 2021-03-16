@@ -29,6 +29,7 @@ See the `docs` info in [Other endpoints](#other-endpoints) to find the API doc f
 
 Some examples of future use cases are:
 
+- Basic backend application with liveness, readiness, metrics endpoints specified
 - Backend application with GCP infrastructure (Bucket, Cloud SQL, PubSub)
 - Basic stand-alone frontend application accessible from outside the cluster
 - Frontend application which connects to a backend application within the cluster
