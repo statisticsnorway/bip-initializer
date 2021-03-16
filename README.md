@@ -1,11 +1,46 @@
-# bip-initializer
+# BIP Initializer
 
-Generate everything your app needs to get started on BIP
+Generate the Kubernetes manifests your app needs to get started on BIP (Byråets IT-Plattform).
 
 ----
 
 [![Build Status](https://dev.azure.com/statisticsnorway/Stratus/_apis/build/status/statisticsnorway.bip-initializer?repoName=statisticsnorway%2Fbip-initializer&branchName=main)](https://dev.azure.com/statisticsnorway/Stratus/_build/latest?definitionId=194&repoName=statisticsnorway%2Fbip-initializer&branchName=main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Functionality
+
+This application is developed incrementally, and we will update this documentation as the development progresses.
+
+### Generator
+
+This application generates Kubernetes manifests that are needed for an application to run on BIP. The manifests are created based on some values provided by the user.
+
+Currently, the generator only supports the most basic use case of creating a Flux HelmRelease for a standard backend application. The input values should be provided as a JSON object in a `POST` request to the generate endpoint:
+
+- `/api/v<version>/generate`
+
+See the `docs` info in [Other endpoints](#other-endpoints) to find the API doc for the generator.
+
+#### Supported use cases
+
+- Basic backend app, not exposed outside the cluster and without any GCP "infrastructure". Added in version 0.2.0.
+
+#### Future use cases
+
+Some examples of future use cases are:
+
+- Backend application with GCP infrastructure (Bucket, Cloud SQL, PubSub)
+- Basic stand-alone frontend application accessible from outside the cluster
+- Frontend application which connects to a backend application within the cluster
+
+### Other endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+|`/docs` |Endpoint for listing and testing all the endpoints. It's a great help if you're wondering how to format the request to the generator or want to know which values are expected! |
+|`/metrics` |Metrics in JSON format |
+|`/health/alive`|Returns `200` (OK) if the application is alive (for K8s probes) |
+|`/health/ready`|Returns `200` (OK) if the application is ready to accept requests (for K8s probes)  |
 
 ## Contribute
 
@@ -46,9 +81,17 @@ This project makes use of the opinionated code formatting tool [Black](https://g
 
 It is recommended to run black automatically every time you change files. This is supported by use of the [pre-commit](https://pre-commit.com/) tool. To set it up, just run `pre-commit install` the first time you set up the project.
 
+### Versioning
+
+We use [semantic versioning](https://semver.org/) for the application itself.
+
+The API endpoint for generating manifests is versioned through the URI path, ref. the routing spec for the `generate` method in [app/generate.py](app/generate.py): `/api/v1/generate`.
+
 ### Make a new release
 
-Update the release number following [semantic versioning](https://semver.org/). It needs to be updated and kept synchronised in `app/__init__.py` and in `pyproject.toml`, change these both in a single commit. Make a PR containing the commit. Once the PR is merged, use the [Github release process](https://github.com/statisticsnorway/bip-initializer/releases/new) to release with the same version number.
+Update the release number following [semantic versioning](https://semver.org/). It needs to be updated and kept synchronised in `app/__init__.py` and in `pyproject.toml`, change these both in a single commit. The commit can be in the branch you use to add/edit functionality or in its own branch after the functionality is added. Make a PR containing the commit.
+
+Once the PR is merged, use the [Github release process](https://github.com/statisticsnorway/bip-initializer/releases/new) to release with the same version number. Given the setup in the [build pipeline](azure-pipeline-build.yml) and the [release pipeline](azure-pipeline-release.yml), it's important that the release/tag is created on the merge commit for the PR.
 
 ## Run locally
 
@@ -60,7 +103,7 @@ poetry run uvicorn --port 5000 --reload app.main:app
 
 ### Access locally
 
-With the server running natively (or in [Docker](#Docker)), visit <http://127.0.0.1:5000/docs> to see all available endpoints.
+With the server running natively (or in [Docker](#Docker)), visit <http://127.0.0.1:5000/docs> to see all available endpoints and test them.
 
 ### Run tests
 
