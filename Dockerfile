@@ -6,7 +6,7 @@
 # ubuntu:20.04 is chosen since it has fewer
 # vulnerabilities than images like Debian Buster
 ###############################################
-FROM ubuntu:20.04 as python-base
+FROM ubuntu:groovy-20210325 as python-base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
