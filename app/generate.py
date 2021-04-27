@@ -19,6 +19,7 @@ class HRValues(BaseModel):
     # Required in ssb-chart but default values defined
     apptype: str = "backend"
     exposed: bool = False
+    authentication: bool = True
     port: Optional[int] = 80
 
     class Config:
@@ -34,6 +35,7 @@ class HRValues(BaseModel):
                 "port": 8080,
                 "apptype": "backend",
                 "exposed": False,
+                "authentication": True,
             }
         }
 
