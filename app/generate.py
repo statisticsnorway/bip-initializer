@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from pydantic import BaseModel, ValidationError, validator, Field
+from pydantic import BaseModel, ValidationError, validator, Field, constr
 from typing import Optional
 from jinja2 import Environment, FileSystemLoader
 import json
@@ -12,7 +12,7 @@ class HRValues(BaseModel):
     name: str
     namespace: str = Field(None, title="Namespace", max_length=10, min_length=1)
     flux_image_tag_pattern: Optional[str] = "glob:main-*"
-    cluster: str
+    cluster: constr(min_length=1, max_length=10)
     billingproject: str
     image_repository: str
     image_tag: str
