@@ -12,7 +12,7 @@ class HRValues(BaseModel):
     name: str
     namespace: str = Field(None, title="Namespace", max_length=10, min_length=1)
     flux_image_tag_pattern: Optional[str] = "glob:main-*"
-    cluster: constr(min_length=1, max_length=10)
+    cluster: constr(min_length=1, max_length=30, regex=r"^[a-zA-Z]+$")
     billingproject: str
     image_repository: str
     image_tag: str
