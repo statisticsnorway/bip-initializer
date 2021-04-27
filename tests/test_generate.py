@@ -12,7 +12,8 @@ def test_generate(client):
             "image_tag": "main-d2193bee3f24ae19e04d77826079d02cf58c0514",
             "port": 5000,
             "apptype": "backend",
-            "exposed": false
+            "exposed": false,
+            "authentication": false
         }"""
     response = client.post(
         "/api/v1/generate",
@@ -46,7 +47,10 @@ def test_generate(client):
                "name": "am-hello-world",
                "appType": "backend",
                "cluster": "staging-bip-app",
-               "exposed": false,
+               "exposed": "False",
+               "IstionEndUserAuth": {
+                 "enabled": "False"
+               },
                "billingProject": "ssb-stratus",
                "image": {
                  "repository": "eu.gcr.io/prod-bip/ssb/stratus/am-hello-world",
