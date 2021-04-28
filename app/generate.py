@@ -7,19 +7,20 @@ import json
 router = APIRouter()
 
 
-# Define the API schema
+# Define the API schema. Any values that we define a default
+# value for becomes optional in the request call.
 class HRValues(BaseModel):
     name: str
     namespace: str
-    flux_image_tag_pattern: Optional[str] = "glob:main-*"
+    flux_image_tag_pattern: str = "glob:main-*"
     cluster: str
     billingproject: str
     image_repository: str
     image_tag: str
-    # Required in ssb-chart but default values defined
     apptype: str = "backend"
     exposed: bool = False
-    port: Optional[int] = 80
+    authentication: bool = True
+    port: int = 80
 
     class Config:
         schema_extra = {
@@ -34,6 +35,7 @@ class HRValues(BaseModel):
                 "port": 8080,
                 "apptype": "backend",
                 "exposed": False,
+                "authentication": True,
             }
         }
 

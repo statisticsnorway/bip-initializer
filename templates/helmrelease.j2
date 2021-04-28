@@ -23,7 +23,10 @@
       "name": "{{ name }}",
       "appType": "{{ apptype }}",
       "cluster": "{{ cluster }}",
-      "exposed": false,
+      "exposed": "{{ exposed }}",
+      "istioEndUserAuth" : {
+        "enabled" : "{{ authentication }}"
+      },
       "billingProject": "{{ billingproject }}",
       "image": {
         "repository": "{{ image_repository }}",
