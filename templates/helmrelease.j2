@@ -24,11 +24,9 @@
       "appType": "{{ apptype }}",
       "cluster": "{{ cluster }}",
       "exposed": "{{ exposed }}",
-      {% if not authentication %}
-        "IstionEndUserAuth" : {
-          "enabled" : "False"
-        },
-      {% endif %}
+      "istioEndUserAuth" : {
+        "enabled" : "{{ authentication }}"
+      },
       "billingProject": "{{ billingproject }}",
       "image": {
         "repository": "{{ image_repository }}",
