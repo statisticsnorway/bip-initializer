@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import Optional
 from jinja2 import Environment, FileSystemLoader
 import json
 
@@ -21,6 +20,8 @@ class HRValues(BaseModel):
     exposed: bool = False
     authentication: bool = True
     port: int = 80
+    health_probes: bool = True
+    metrics: bool = True
 
     class Config:
         schema_extra = {
@@ -36,6 +37,8 @@ class HRValues(BaseModel):
                 "apptype": "backend",
                 "exposed": False,
                 "authentication": True,
+                "health_probes": True,
+                "metrics": True,
             }
         }
 

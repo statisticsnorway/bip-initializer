@@ -25,6 +25,42 @@ def test_generate_unexposed_with_authentication(client):
     assert response.json()["spec"]["values"]["exposed"] == "False"
 
 
+def test_generate_exposed_without_authentication(client):
+    post_data = json.loads(required_input())
+    post_data["authentication"] = False
+    response = client.post(
+        "/api/v1/generate",
+        headers={"Content-Type": "application/json"},
+        json=post_data,
+    )
+    assert response.status_code == 200
+    assert response.json()["spec"]["values"]["istioEndUserAuth"]["enabled"] == "False"
+
+
+def test_generate_without_metrics(client):
+    post_data = json.loads(required_input())
+    post_data["metrics"] = False
+    response = client.post(
+        "/api/v1/generate",
+        headers={"Content-Type": "application/json"},
+        json=post_data,
+    )
+    assert response.status_code == 200
+    assert "metrics" not in response.json()["spec"]["values"]
+
+
+def test_generate_without_health(client):
+    post_data = json.loads(required_input())
+    post_data["health_probes"] = False
+    response = client.post(
+        "/api/v1/generate",
+        headers={"Content-Type": "application/json"},
+        json=post_data,
+    )
+    assert response.status_code == 200
+    assert "probes" not in response.json()["spec"]["values"]
+
+
 def test_wrong_type(client):
     post_data = json.loads(required_input())
     post_data["port"] = "Femhundre"
