@@ -36,6 +36,37 @@
         "name": "http-{{ name }}",
         "containerport": {{ port }}
       }
+      {%- if health_probes -%}
+      ,
+      "probes": {
+        "liveness": {
+          "enabled": "True",
+          "livenessProbe": {
+            "httpGet": {
+              "port": {{ port }},
+              "path": "/health/alive"
+            }
+          }
+        },
+        "readiness": {
+          "enabled": "True",
+          "readinessProbe": {
+            "httpGet": {
+              "port": {{ port }},
+              "path": "/health/ready"
+            }
+          }
+        }
+      }
+      {%- endif -%}
+      {%- if metrics -%}
+      ,
+      "metrics": {
+        "enabled": "True",
+        "path": "/metrics",
+        "port": {{ port }}
+      }
+      {%- endif -%}
     }
   }
 }

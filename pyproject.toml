@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bip-initializer"
-version = "0.2.0"
+version = "0.2.1"
 description = "Generate everything your app needs to get started on BIP"
 authors = ["Miles Mason Winther <mmw@ssb.no>", "Bjørn Vestli <bjv@ssb.no>", "Lisa Wold Eriksen <lwe@ssb.no>"]
 license = "Apache-2.0"
