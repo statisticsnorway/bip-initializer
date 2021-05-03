@@ -30,6 +30,8 @@ class HRValues(BaseModel):
     exposed: bool = False
     authentication: bool = True
     port: conint(ge=1024, le=65535) = 8080
+    health_probes: bool = True
+    metrics: bool = True
 
     class Config:
         schema_extra = {
@@ -45,6 +47,8 @@ class HRValues(BaseModel):
                 "apptype": "backend",
                 "exposed": False,
                 "authentication": True,
+                "health_probes": True,
+                "metrics": True,
             }
         }
 

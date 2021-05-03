@@ -37,6 +37,31 @@ def required_output():
       "port": {
         "name": "http-am-hello-world",
         "containerport": 5000
+      },
+      "probes": {
+        "liveness": {
+          "enabled": "True",
+          "livenessProbe": {
+            "httpGet": {
+              "port": 5000,
+              "path": "/health/alive"
+            }
+          }
+        },
+        "readiness": {
+          "enabled": "True",
+          "readinessProbe": {
+            "httpGet": {
+              "port": 5000,
+              "path": "/health/ready"
+            }
+          }
+        }
+      },
+      "metrics": {
+        "enabled": "True",
+        "path": "/metrics",
+        "port": 5000
       }
     }
   }

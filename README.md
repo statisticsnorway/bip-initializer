@@ -3,8 +3,7 @@
 Generate the Kubernetes manifests your app needs to get started on BIP (Byråets IT-Plattform).
 
 ----
-
-[![Build Status](https://dev.azure.com/statisticsnorway/Stratus/_apis/build/status/statisticsnorway.bip-initializer?repoName=statisticsnorway%2Fbip-initializer&branchName=main)](https://dev.azure.com/statisticsnorway/Stratus/_build/latest?definitionId=194&repoName=statisticsnorway%2Fbip-initializer&branchName=main)
+[![Build Status](https://dev.azure.com/statisticsnorway/Stratus/_apis/build/status/BIP%20Initializer%20Build?repoName=statisticsnorway%2Fbip-initializer&branchName=main)](https://dev.azure.com/statisticsnorway/Stratus/_build/latest?definitionId=210&repoName=statisticsnorway%2Fbip-initializer&branchName=main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Functionality
@@ -23,13 +22,16 @@ See the `docs` info in [Other endpoints](#other-endpoints) to find the API doc f
 
 #### Supported use cases
 
-- Basic backend app, not exposed outside the cluster and without any GCP "infrastructure". Added in version 0.2.0.
+- Basic backend app without any GCP "infrastructure", with the following customizations:
+  - exposed/unexposed outside the cluster (input parameter `exposed`)
+  - with/without Istio end user authentication (input parameter `authentication`)
+  - with/without default Kubernetes health probe configuration (input parameter `health_probes`)
+  - with/without default metrics endpoint configuration (input parameter `metrics`)
 
 #### Future use cases
 
 Some examples of future use cases are:
 
-- Basic backend application with liveness, readiness, metrics endpoints specified
 - Backend application with GCP infrastructure (Bucket, Cloud SQL, PubSub)
 - Basic stand-alone frontend application accessible from outside the cluster
 - Frontend application which connects to a backend application within the cluster
