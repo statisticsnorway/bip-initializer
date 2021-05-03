@@ -41,19 +41,7 @@ def test_validate_input_invalid_characters(client):
     assert response.status_code == 422
 
 
-def test_validate_input_invalid_characters(client):
-    post_data = json.loads(required_input())
-    post_data["name"] = "Skal-ikke-virke-med-bindestrek-bakerst-"
-    response = client.post(
-        "/api/v1/generate",
-        headers={"Content-Type": "application/json"},
-        json=post_data,
-    )
-    print(json.dumps(response.json()))
-    assert response.status_code == 422
-
-
-def test_validate_input_valid_characters(client):
+def test_validate_input_valid_url(client):
     post_data = json.loads(required_input())
     post_data[
         "image_repository"
