@@ -19,7 +19,7 @@ class HRValues(BaseModel):
     apptype: str = "backend"
     exposed: bool = False
     authentication: bool = True
-    port: int = 80
+    port: int = 8080
     health_probes: bool = True
     metrics: bool = True
 
